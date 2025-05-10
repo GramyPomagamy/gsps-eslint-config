@@ -1,0 +1,27 @@
+{
+  "name": "@gsps/eslint-config",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "description": "ESLint configuration used in GSPS (GramyPomagamy) TypeScript projects.",
+  "exports": {
+    "default": "./index.js"
+  },
+  "keywords": [
+    "eslint",
+    "gsps"
+  ],
+  "author": "GramyPomagamy",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "eslint": "^9.26.0",
+    "eslint-plugin-perfectionist": "^4.12.3",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "typescript-eslint": "^8.32.0"
+  },
+  "peerDependencies": {
+    "eslint": "^9"
+  }
+}
