@@ -1,12 +1,12 @@
-const eslintJs = require('@eslint/js');
-const tseslint = require('typescript-eslint');
-const perfectionist = require('eslint-plugin-perfectionist');
-const reactHooks = require('eslint-plugin-react-hooks');
-const react = require('eslint-plugin-react');
-const globals = require('globals');
-const stylistic = require('@stylistic/eslint-plugin');
+import eslintJs from '@eslint/js';
+import * as tseslint from 'typescript-eslint';
+import perfectionist from 'eslint-plugin-perfectionist';
+import * as reactHooks from 'eslint-plugin-react-hooks';
+import react from 'eslint-plugin-react';
+import globals from 'globals';
+import stylistic from '@stylistic/eslint-plugin';
 
-module.exports = tseslint.config(
+export default tseslint.config(
     // Base ignores
     {
         ignores: [
@@ -21,16 +21,16 @@ module.exports = tseslint.config(
     },
     eslintJs.configs.recommended,
     ...tseslint.configs.recommended,
-    ...react.configs.flat.recommended,
-    ...react.configs.flat['jsx-runtime'],
-    ...reactHooks.configs['recommended-latest'],
+    react.configs.flat.recommended,
+    react.configs.flat['jsx-runtime'],
+    reactHooks.configs['recommended-latest'],
+
     // Base config for all files
     {
-        files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
+        files: ['src/**/*.{js,jsx,mjs,cjs,ts,tsx}'],
         plugins: {
             '@typescript-eslint': tseslint.plugin,
             perfectionist,
-            react,
             '@stylistic': stylistic
         },
         languageOptions: {
@@ -46,9 +46,6 @@ module.exports = tseslint.config(
             }
         },
         settings: {
-            react: {
-                version: 'detect' // React version detection
-            },
             'import/resolver': {
                 typescript: {} // Use TypeScript resolver
             }
@@ -67,22 +64,11 @@ module.exports = tseslint.config(
             "no-var": "warn",
             "prefer-const": "error",
             "yoda": "error",
-            "eqeqeq": ["error", "always", { "null": "ignore" }],
+            "eqeqeq": ["error", "smart"],
 
             // eslint-stylistic
             '@stylistic/newline-per-chained-call': 'error',
             "@stylistic/semi": "error",
-            "@stylistic/jsx/jsx-quotes": ["error", "prefer-double"],
-            "@stylistic/jsx/jsx-indent-props": ["error", 2],
-            "@stylistic/jsx/jsx-self-closing-comp": ["error", {
-                "component": true,
-                "html": true
-            }],
-            "@stylistic/jsx/jsx-pascal-case": ["error", { "allowNamespace": true }],
-            "@stylistic/jsx/jsx-closing-tag-location": "error",
-            "@stylistic/jsx/jsx-curly-spacing": ["error", { "when": "never" }],
-            "@stylistic/jsx/jsx-boolean-value": ["error", "never"],
-            "@stylistic/jsx/jsx-first-prop-new-line": ["error", "multiline"],
             "@stylistic/indent": ["error", 2],
             "@stylistic/brace-style": ["error", "1tbs"],
             "@stylistic/array-bracket-newline": ["error", "consistent"],
@@ -122,10 +108,40 @@ module.exports = tseslint.config(
             "@typescript-eslint/no-useless-constructor": "error",
             "@typescript-eslint/no-use-before-define": "error",
 
+            // perfectionist
+            'perfectionist/sort-imports': ["error", {
+                type: 'natural',
+                order: 'asc'
+            }],
+            'perfectionist/sort-exports': ["error", { type: 'natural', order: 'asc' }],
+            'perfectionist/sort-named-imports': ["error", { type: 'natural', order: 'asc' }],
+            'perfectionist/sort-object-types': ["warn", { type: 'natural', order: 'asc' }]
+        }
+    },
+
+    // Rules only for JSX/TSX files
+    {
+        files: ['**/*.{jsx,tsx}'],
+        plugins: {
+            '@typescript-eslint': tseslint.plugin,
+            perfectionist,
+            react,
+            '@stylistic': stylistic
+        },
+        settings: {
+            react: {
+                version: 'detect'
+            },
+        },
+        languageOptions: {
+            globals: {
+                ...globals.browser
+            }
+        },
+        rules: {
             // react rules
             "react/prop-types": "off",
             "react/display-name": "off",
-            "react/jsx-curly-brace-presence": ["error", { "props": "never", "children": "never" }],
             "react/jsx-no-useless-fragment": "error",
             "react/jsx-handler-names": ["warn", {
                 "eventHandlerPrefix": "handle",
@@ -133,38 +149,26 @@ module.exports = tseslint.config(
             }],
             "react/no-array-index-key": "warn",
 
-            // perfectionist
-            'perfectionist/sort-imports': ["error", { 
-                type: 'natural', 
-                order: 'asc',
-                groups: [
-                    'react',
-                    'builtin',
-                    'external',
-                    'internal',
-                    'parent',
-                    'sibling',
-                    'index',
-                    'object',
-                    'type',
-                    'style',
-                    'unknown'
-                ]
+            // JSX stylistic
+            "@stylistic/jsx-quotes": ["error", "prefer-double"],
+            "@stylistic/jsx-indent-props": ["error", 2],
+            "@stylistic/jsx-self-closing-comp": ["error", {
+                "component": true,
+                "html": true
             }],
-            'perfectionist/sort-exports': ["error", { type: 'natural', order: 'asc' }],
-            'perfectionist/sort-named-imports': ["error", { type: 'natural', order: 'asc' }],
-            'perfectionist/sort-object-types': ["warn", { type: 'natural', order: 'asc' }]
+            "@stylistic/jsx-pascal-case": ["error", { "allowNamespace": true }],
+            "@stylistic/jsx-closing-tag-location": "error",
+            "@stylistic/jsx-curly-spacing": ["error", { "when": "never" }],
+            "@stylistic/jsx-boolean-value": ["error", "never"],
+            "@stylistic/jsx-first-prop-new-line": ["error", "multiline"],
+            "@stylistic/jsx-curly-brace-presence": ["error", {
+                "props": "never",
+                "children": "never",
+                "propElementValues": "always"
+            }],
         }
     },
-    // Browser globals only for JSX/TSX files
-    {
-        files: ['**/*.{jsx,tsx}'],
-        languageOptions: {
-            globals: {
-                ...globals.browser
-            }
-        }
-    },
+
     // Test files
     {
         files: ['**/*.{test,spec}.{js,jsx,ts,tsx}', '**/tests/**', '**/test/**', '**/__tests__/**'],
@@ -179,5 +183,5 @@ module.exports = tseslint.config(
             "@stylistic/max-len": "off",
             "@typescript-eslint/no-non-null-assertion": "off"
         }
-    }
-)
+    },
+);
