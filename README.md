@@ -9,7 +9,7 @@ Run:
 npm i -D @gramypomagamy/eslint-config
 ```
 
-Add a file called `eslint.config.js` to your project root, and add this code there:
+Add a file called `eslint.config.mjs` to your project root, and add this code there:
 ```js
 import config from '@gramypomagamy/eslint-config';
 

@@ -20,35 +20,13 @@ export default tseslint.config(
     ],
   },
   eslintJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  react.configs.flat.recommended,
-  react.configs.flat["jsx-runtime"],
-  reactHooks.configs["recommended-latest"],
 
   // Base config for all files
   {
     files: ["src/**/*.{js,jsx,mjs,cjs,ts,tsx}"],
     plugins: {
-      "@typescript-eslint": tseslint.plugin,
       perfectionist,
       "@stylistic": stylistic,
-    },
-    languageOptions: {
-      // No browser globals by default
-      parser: tseslint.parser,
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-        project: "./tsconfig.json", // Enable type-aware rules
-        ecmaVersion: 2022,
-        sourceType: "module",
-      },
-    },
-    settings: {
-      "import/resolver": {
-        typescript: {}, // Use TypeScript resolver
-      },
     },
     rules: {
       // eslint
@@ -87,7 +65,55 @@ export default tseslint.config(
       "@stylistic/no-multi-spaces": "error",
       "@stylistic/no-multiple-empty-lines": ["error", { max: 1, maxEOF: 0 }],
 
-      // typescript-eslint
+      // perfectionist
+      "perfectionist/sort-imports": [
+        "error",
+        {
+          type: "natural",
+          order: "asc",
+        },
+      ],
+      "perfectionist/sort-exports": [
+        "error",
+        { type: "natural", order: "asc" },
+      ],
+      "perfectionist/sort-named-imports": [
+        "error",
+        { type: "natural", order: "asc" },
+      ],
+      "perfectionist/sort-object-types": [
+        "warn",
+        { type: "natural", order: "asc" },
+      ],
+    },
+  },
+
+  // Rules only for TS/TSX files
+  {
+    files: ["**/*.{ts,tsx}"],
+    extends: [
+      tseslint.configs.recommended,
+    ],
+    plugins: {
+      "@typescript-eslint": tseslint.plugin,
+    },
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+        project: "./tsconfig.json",
+        ecmaVersion: 2022,
+        sourceType: "module",
+      },
+    },
+    settings: {
+      "import/resolver": {
+        typescript: {},
+      },
+    },
+    rules: {
       "@typescript-eslint/prefer-nullish-coalescing": [
         "warn",
         { ignoreIfStatements: true },
@@ -130,36 +156,19 @@ export default tseslint.config(
       "@typescript-eslint/no-empty-function": "error",
       "@typescript-eslint/no-useless-constructor": "error",
       "@typescript-eslint/no-use-before-define": "error",
-
-      // perfectionist
-      "perfectionist/sort-imports": [
-        "error",
-        {
-          type: "natural",
-          order: "asc",
-        },
-      ],
-      "perfectionist/sort-exports": [
-        "error",
-        { type: "natural", order: "asc" },
-      ],
-      "perfectionist/sort-named-imports": [
-        "error",
-        { type: "natural", order: "asc" },
-      ],
-      "perfectionist/sort-object-types": [
-        "warn",
-        { type: "natural", order: "asc" },
-      ],
-    },
+    }
   },
 
   // Rules only for JSX/TSX files
   {
     files: ["**/*.{jsx,tsx}"],
+    extends: [
+      react.configs.flat.recommended,
+      react.configs.flat["jsx-runtime"],
+      reactHooks.configs["recommended-latest"],
+    ],
     plugins: {
       react,
-      "@stylistic": stylistic,
     },
     settings: {
       react: {
