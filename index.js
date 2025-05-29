@@ -41,7 +41,7 @@ export default tseslint.config(
           jsx: true,
         },
         project: "./tsconfig.json", // Enable type-aware rules
-        ecmaVersion: "latest",
+        ecmaVersion: 2022,
         sourceType: "module",
       },
     },
