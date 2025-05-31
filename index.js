@@ -47,6 +47,7 @@ export default tseslint.config(
       // eslint-stylistic
       "@stylistic/newline-per-chained-call": "error",
       "@stylistic/semi": "error",
+      "@stylistic/eol-last": "error",
       "@stylistic/indent": ["error", 2],
       "@stylistic/brace-style": ["error", "1tbs"],
       "@stylistic/array-bracket-newline": ["error", "consistent"],
