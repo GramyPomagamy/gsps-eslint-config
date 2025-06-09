@@ -72,6 +72,17 @@ export default tseslint.config(
         {
           type: "natural",
           order: "asc",
+          newlinesBetween: 'never',          
+          groups: [
+            ["builtin-type", "builtin"],
+            ["external-type", "external"],
+            ["internal-type", "internal"],
+            ["parent-type", "parent"],
+            ["sibling-type", "sibling"],
+            ["index-type", "index"],
+            "object",
+            "unknown"
+          ]
         },
       ],
       "perfectionist/sort-exports": [
@@ -134,7 +145,10 @@ export default tseslint.config(
       ],
       "@typescript-eslint/consistent-type-imports": [
         "error",
-        { prefer: "type-imports" },
+        {
+          prefer: "type-imports",
+          fixStyle: "inline-type-imports"
+        },
       ],
       "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/no-misused-promises": "error",
