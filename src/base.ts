@@ -1,13 +1,22 @@
 import { ConfigCreator } from "./util/ConfigCreator.js";
 
+const tsParser = ConfigCreator.createTsParser({
+  tsconfigFilePaths: ["tsconfig.json"],
+});
+
 const browserRules = ConfigCreator.createBrowserRules({
   folderPath: "**",
-  tsconfigFilePath: "./tsconfig.json",
 });
+
 const extensionRules = ConfigCreator.createNodeRules({
   folderPath: "**",
-  tsconfigFilePath: "./tsconfig.json",
 });
+
 const testRules = ConfigCreator.createTestRules();
 
-export const baseConfig = [...browserRules, ...extensionRules, ...testRules];
+export const baseConfig = [
+  ...tsParser,
+  ...browserRules,
+  ...extensionRules,
+  ...testRules,
+];

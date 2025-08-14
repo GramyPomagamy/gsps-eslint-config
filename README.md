@@ -26,22 +26,31 @@ Example usage:
 ```js
 import { ConfigCreator } from "@gramypomagamy/eslint-config";
 
+const tsParser = ConfigCreator.createTsParser({
+  tsconfigFilePaths: [
+    "src/browser/tsconfig.json",
+    "src/extension/tsconfig.json",
+  ],
+});
+
 const browserConfig = ConfigCreator.createBrowserRules({
   folderPath: "src/browser",
-  tsconfigFilePath: "src/browser/tsconfig.json",
 });
 
 const browserTsConfig = ConfigCreator.createNodeRules({
   folderPath: "src/browser",
-  tsconfigFilePath: "src/browser/tsconfig.json",
 });
 
 const extensionConfig = ConfigCreator.createNodeRules({
   folderPath: "src/extension",
-  tsconfigFilePath: "src/extension/tsconfig.json",
 });
 
-export default [...browserConfig, ...browserTsConfig, ...extensionConfig];
+export default [
+  ...tsParser,
+  ...browserConfig,
+  ...browserTsConfig,
+  ...extensionConfig,
+];
 ```
 
 ## IDE Setup

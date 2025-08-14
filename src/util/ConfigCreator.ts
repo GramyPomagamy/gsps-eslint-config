@@ -5,20 +5,20 @@ import * as reactHooks from "eslint-plugin-react-hooks";
 import react from "eslint-plugin-react";
 import globals from "globals";
 import stylistic from "@stylistic/eslint-plugin";
-import type { LintingRulesParams } from "../types/rulesParams.types.js";
+import type {
+  LintingRulesParams,
+  TsParserParams,
+} from "../types/rulesParams.types.js";
 
 export class ConfigCreator {
-  private static createTsParser({
-    folderPath,
-    tsconfigFilePath,
-  }: LintingRulesParams) {
+  public static createTsParser({ tsconfigFilePaths }: TsParserParams) {
     return tseslint.config({
-      files: [`${folderPath}/**/*.{ts,tsx}`],
+      files: ["**/**/*.{ts,tsx}"],
       languageOptions: {
         parser: tseslint.parser,
         parserOptions: {
           ecmaFeatures: { jsx: true },
-          project: tsconfigFilePath,
+          project: tsconfigFilePaths,
           ecmaVersion: 2022,
           sourceType: "module",
         },
@@ -31,12 +31,8 @@ export class ConfigCreator {
     });
   }
 
-  public static createNodeRules({
-    folderPath,
-    tsconfigFilePath,
-  }: LintingRulesParams) {
+  public static createNodeRules({ folderPath }: LintingRulesParams) {
     return tseslint.config(
-      this.createTsParser({ folderPath, tsconfigFilePath }),
       {
         ignores: [
           "node_modules",
@@ -141,7 +137,7 @@ export class ConfigCreator {
       },
 
       {
-        files: [`${folderPath}/**/*.{ts}`],
+        files: [`${folderPath}/**/*.ts`],
         plugins: {
           "@typescript-eslint": tseslint.plugin,
         },
@@ -204,12 +200,8 @@ export class ConfigCreator {
     );
   }
 
-  public static createBrowserRules({
-    folderPath,
-    tsconfigFilePath,
-  }: LintingRulesParams) {
+  public static createBrowserRules({ folderPath }: LintingRulesParams) {
     return tseslint.config(
-      this.createTsParser({ folderPath, tsconfigFilePath }),
       ...tseslint.configs.recommended,
       {
         files: [`${folderPath}/**/*.{jsx,tsx}`],
@@ -347,7 +339,7 @@ export class ConfigCreator {
       },
 
       {
-        files: [`${folderPath}/**/*.{tsx}`],
+        files: [`${folderPath}/**/*.tsx`],
         plugins: {
           "@typescript-eslint": tseslint.plugin,
         },
