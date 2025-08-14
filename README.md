@@ -9,11 +9,39 @@ Run:
 npm i -D @gramypomagamy/eslint-config
 ```
 
+### Base config
+The base config is suitable for most projects with a single `tsconfig.json` file.
+
 Add a file called `eslint.config.mjs` to your project root, and add this code there:
 ```js
-import config from '@gramypomagamy/eslint-config';
+import { baseConfig } from '@gramypomagamy/eslint-config';
 
-export default config;
+export default baseConfig;
+```
+
+### Config creator (mostly used for NodeCG projects)
+The config creator allows you to create specific rules with custom paths to the files that would be linted and a custom path to a `tsconfig.json` file.
+
+Example usage:
+```js
+import { ConfigCreator } from "@gramypomagamy/eslint-config";
+
+const browserConfig = ConfigCreator.createBrowserRules({
+  folderPath: "src/browser",
+  tsconfigFilePath: "src/browser/tsconfig.json",
+});
+
+const browserTsConfig = ConfigCreator.createNodeRules({
+  folderPath: "src/browser",
+  tsconfigFilePath: "src/browser/tsconfig.json",
+});
+
+const extensionConfig = ConfigCreator.createNodeRules({
+  folderPath: "src/extension",
+  tsconfigFilePath: "src/extension/tsconfig.json",
+});
+
+export default [...browserConfig, ...browserTsConfig, ...extensionConfig];
 ```
 
 ## IDE Setup
