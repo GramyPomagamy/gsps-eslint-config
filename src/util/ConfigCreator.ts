@@ -157,10 +157,6 @@ export class ConfigCreator {
           "@typescript-eslint/prefer-includes": "warn",
           "@typescript-eslint/prefer-find": "error",
           "@typescript-eslint/no-explicit-any": "warn",
-          "@typescript-eslint/explicit-function-return-type": [
-            "warn",
-            { allowExpressions: true },
-          ],
           "@typescript-eslint/ban-ts-comment": "warn",
           "@typescript-eslint/no-unused-vars": [
             "error",
@@ -357,10 +353,6 @@ export class ConfigCreator {
           "@typescript-eslint/prefer-includes": "warn",
           "@typescript-eslint/prefer-find": "error",
           "@typescript-eslint/no-explicit-any": "warn",
-          "@typescript-eslint/explicit-function-return-type": [
-            "warn",
-            { allowExpressions: true },
-          ],
           "@typescript-eslint/ban-ts-comment": "warn",
           "@typescript-eslint/no-unused-vars": [
             "error",
