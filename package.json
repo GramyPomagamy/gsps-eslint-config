@@ -26,16 +26,16 @@
   "author": "GramyPomagamy",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@stylistic/eslint-plugin": "^5.2.3",
-    "eslint": "^9",
-    "eslint-plugin-perfectionist": "^4.15.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "globals": "^16.3.0",
-    "typescript-eslint": "^8.39.1"
+    "@stylistic/eslint-plugin": "~5.2.3",
+    "eslint": "~9.33.0",
+    "eslint-plugin-perfectionist": "~4.15.0",
+    "eslint-plugin-react": "~7.37.5",
+    "eslint-plugin-react-hooks": "~5.2.0",
+    "globals": "~16.3.0",
+    "typescript-eslint": "~8.39.1"
   },
   "peerDependencies": {
-    "eslint": "^9"
+    "eslint": "~9.33.0"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
