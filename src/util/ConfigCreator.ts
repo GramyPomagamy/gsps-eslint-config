@@ -46,7 +46,6 @@ export class ConfigCreator {
       },
 
       eslintJs.configs.recommended,
-      ...tseslint.configs.recommended,
 
       {
         files: [`${folderPath}/**/*.{js,mjs,cjs,ts}`],
@@ -146,6 +145,7 @@ export class ConfigCreator {
             typescript: {},
           },
         },
+        extends: [tseslint.configs.recommended],
         rules: {
           "dot-notation": "off",
           "@typescript-eslint/dot-notation": "error",
@@ -202,7 +202,6 @@ export class ConfigCreator {
 
   public static createBrowserRules({ folderPath }: LintingRulesParams) {
     return tseslint.config(
-      ...tseslint.configs.recommended,
       {
         files: [`${folderPath}/**/*.{jsx,tsx}`],
         extends: [
@@ -348,6 +347,7 @@ export class ConfigCreator {
             typescript: {},
           },
         },
+        extends: [tseslint.configs.recommended],
         rules: {
           "@typescript-eslint/prefer-nullish-coalescing": [
             "warn",
