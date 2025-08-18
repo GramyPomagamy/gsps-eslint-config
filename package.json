@@ -1,19 +1,28 @@
 {
   "name": "@gramypomagamy/eslint-config",
   "version": "2.0.0",
-  "main": "index.js",
+  "main": "./dist/index.cjs",
   "type": "module",
   "description": "ESLint configuration used in GSPS (GramyPomagamy) TypeScript projects.",
   "exports": {
-    "default": "./dist/index.js",
-    "types": "./dist/index.d.ts"
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
   },
   "scripts": {
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
-    "build": "tsc",
+    "build": "tsup",
     "prepublish": "npm run build"
   },
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "README.md",
@@ -38,9 +47,9 @@
     "eslint": "~9.33.0"
   },
   "devDependencies": {
-    "@tsconfig/node22": "^22.0.2",
     "@types/node": "^22.17.1",
     "rimraf": "^6.0.1",
+    "tsup": "^8.5.0",
     "typescript": "^5.9.2"
   }
 }
