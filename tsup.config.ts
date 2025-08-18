@@ -10,7 +10,7 @@ export default defineConfig([
     splitting: false,
     sourcemap: false,
     clean: true,
-    minify: false,
+    minify: true,
     dts: true,
     outDir: "dist",
   },
