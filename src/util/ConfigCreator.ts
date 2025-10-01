@@ -2,6 +2,8 @@ import eslintJs from "@eslint/js";
 import * as tseslint from "typescript-eslint";
 import perfectionist from "eslint-plugin-perfectionist";
 import * as reactHooks from "eslint-plugin-react-hooks";
+import prettier from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
 import react from "eslint-plugin-react";
 import globals from "globals";
 import stylistic from "@stylistic/eslint-plugin";
@@ -51,7 +53,7 @@ export class ConfigCreator {
         files: [`${folderPath}/**/*.{js,mjs,cjs,ts}`],
         plugins: {
           perfectionist,
-          "@stylistic": stylistic,
+          prettier,
         },
         languageOptions: {
           globals: {
@@ -75,31 +77,6 @@ export class ConfigCreator {
           "prefer-const": "error",
           yoda: "error",
           eqeqeq: ["error", "smart"],
-
-          // eslint-stylistic
-          "@stylistic/newline-per-chained-call": "error",
-          "@stylistic/semi": "error",
-          "@stylistic/eol-last": "error",
-          "@stylistic/indent": ["error", 2],
-          "@stylistic/brace-style": ["error", "1tbs"],
-          "@stylistic/array-bracket-newline": ["error", "consistent"],
-          "@stylistic/object-curly-spacing": ["error", "always"],
-          "@stylistic/quotes": ["error", "double", { avoidEscape: true }],
-          "@stylistic/max-len": [
-            "warn",
-            {
-              code: 100,
-              ignoreStrings: true,
-              ignoreTemplateLiterals: true,
-              ignoreComments: true,
-            },
-          ],
-          "@stylistic/no-trailing-spaces": "error",
-          "@stylistic/no-multi-spaces": "error",
-          "@stylistic/no-multiple-empty-lines": [
-            "error",
-            { max: 1, maxEOF: 0 },
-          ],
 
           // perfectionist
           "perfectionist/sort-imports": [
@@ -132,6 +109,9 @@ export class ConfigCreator {
             "warn",
             { type: "natural", order: "asc" },
           ],
+
+          // prettier
+          "prettier/prettier": "error",
         },
       },
 
@@ -192,7 +172,9 @@ export class ConfigCreator {
           "@typescript-eslint/no-use-before-define": "error",
           "@typescript-eslint/no-require-imports": "off",
         },
-      }
+      },
+
+      prettierConfig
     );
   }
 
@@ -208,6 +190,7 @@ export class ConfigCreator {
         plugins: {
           react,
           perfectionist,
+          prettier,
           "@stylistic": stylistic,
         },
         settings: {
@@ -225,7 +208,6 @@ export class ConfigCreator {
         rules: {
           "no-duplicate-imports": "error",
           "no-use-before-define": "off",
-          curly: "error",
           "default-case": "error",
           "dot-notation": "error",
           "no-empty-function": "off",
@@ -236,31 +218,6 @@ export class ConfigCreator {
           "prefer-const": "error",
           yoda: "error",
           eqeqeq: ["error", "smart"],
-
-          // eslint-stylistic
-          "@stylistic/newline-per-chained-call": "error",
-          "@stylistic/semi": "error",
-          "@stylistic/eol-last": "error",
-          "@stylistic/indent": ["error", 2],
-          "@stylistic/brace-style": ["error", "1tbs"],
-          "@stylistic/array-bracket-newline": ["error", "consistent"],
-          "@stylistic/object-curly-spacing": ["error", "always"],
-          "@stylistic/quotes": ["error", "double", { avoidEscape: true }],
-          "@stylistic/max-len": [
-            "warn",
-            {
-              code: 100,
-              ignoreStrings: true,
-              ignoreTemplateLiterals: true,
-              ignoreComments: true,
-            },
-          ],
-          "@stylistic/no-trailing-spaces": "error",
-          "@stylistic/no-multi-spaces": "error",
-          "@stylistic/no-multiple-empty-lines": [
-            "error",
-            { max: 1, maxEOF: 0 },
-          ],
 
           // perfectionist
           "perfectionist/sort-imports": [
@@ -309,8 +266,6 @@ export class ConfigCreator {
           "react/jsx-boolean-value": ["error", "never"],
 
           // JSX stylistic
-          "@stylistic/jsx-quotes": ["error", "prefer-double"],
-          "@stylistic/jsx-indent-props": ["error", 2],
           "@stylistic/jsx-self-closing-comp": [
             "error",
             {
@@ -319,9 +274,6 @@ export class ConfigCreator {
             },
           ],
           "@stylistic/jsx-pascal-case": ["error", { allowNamespace: true }],
-          "@stylistic/jsx-closing-tag-location": "error",
-          "@stylistic/jsx-curly-spacing": ["error", { when: "never" }],
-          "@stylistic/jsx-first-prop-new-line": ["error", "multiline"],
           "@stylistic/jsx-curly-brace-presence": [
             "error",
             {
@@ -330,6 +282,9 @@ export class ConfigCreator {
               propElementValues: "always",
             },
           ],
+
+          // prettier
+          "prettier/prettier": "error",
         },
       },
 
@@ -388,7 +343,9 @@ export class ConfigCreator {
           "@typescript-eslint/no-use-before-define": "error",
           "@typescript-eslint/no-require-imports": "off",
         },
-      }
+      },
+
+      prettierConfig
     );
   }
 
@@ -411,6 +368,8 @@ export class ConfigCreator {
         "@stylistic/max-len": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
       },
-    });
+    },
+      prettierConfig
+    );
   }
 }
