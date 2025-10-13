@@ -10,19 +10,29 @@ npm i -D @gramypomagamy/eslint-config
 ```
 
 ### Base config
-The base config is suitable for most projects with a single `tsconfig.json` file.
+This package includes 3 base configs:
+- one for raw TypeScript (exported as `tsConfig`)
+- one for React (exported as `reactConfig`)
+- one for Vue (exported as `vueConfig`)
 
 Add a file called `eslint.config.mjs` to your project root, and add this code there:
 ```js
-import { baseConfig } from '@gramypomagamy/eslint-config';
+import { tsConfig } from '@gramypomagamy/eslint-config';
 
-export default baseConfig;
+export default tsConfig;
 ```
 
-### Config creator (mostly used for NodeCG projects)
+These configs can be combined if needed, like this:
+```js
+import { tsConfig, reactConfig } from '@gramypomagamy/eslint-config';
+
+export default [...tsConfig, ...reactConfig];
+```
+
+### Config creator
 The config creator allows you to create specific rules with custom paths to the files that would be linted and a custom path to a `tsconfig.json` file.
 
-Example usage:
+Example usage for React:
 ```js
 import { ConfigCreator } from "@gramypomagamy/eslint-config";
 
@@ -33,15 +43,49 @@ const tsParser = ConfigCreator.createTsParser({
   ],
 });
 
-const browserConfig = ConfigCreator.createBrowserRules({
+const browserConfig = ConfigCreator.createReactRules({
   folderPath: "src/browser",
 });
 
-const browserTsConfig = ConfigCreator.createNodeRules({
+const browserTsConfig = ConfigCreator.createTsRules({
   folderPath: "src/browser",
 });
 
-const extensionConfig = ConfigCreator.createNodeRules({
+const extensionConfig = ConfigCreator.createTsRules({
+  folderPath: "src/extension",
+});
+
+export default [
+  ...tsParser,
+  ...browserConfig,
+  ...browserTsConfig,
+  ...extensionConfig,
+];
+```
+
+Example usage for Vue:
+```js
+import { ConfigCreator } from "@gramypomagamy/eslint-config";
+
+const tsParser = ConfigCreator.createTsParser({
+  tsconfigFilePaths: [
+    "src/browser/tsconfig.json",
+    "src/extension/tsconfig.json",
+  ],
+});
+
+const browserConfig = ConfigCreator.createVueRules({
+  folderPath: "src/browser",
+  tsconfigFilePaths: [
+    "src/browser/tsconfig.json",
+  ],
+});
+
+const browserTsConfig = ConfigCreator.createTsRules({
+  folderPath: "src/browser",
+});
+
+const extensionConfig = ConfigCreator.createTsRules({
   folderPath: "src/extension",
 });
 
