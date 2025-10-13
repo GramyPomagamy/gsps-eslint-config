@@ -1,4 +1,4 @@
-import { baseConfig } from "./base.js";
+import { tsConfig, reactConfig, vueConfig } from "./base.js";
 import { ConfigCreator } from "./util/ConfigCreator.js";
 
-export { baseConfig, ConfigCreator };
+export { tsConfig, reactConfig, vueConfig, ConfigCreator };

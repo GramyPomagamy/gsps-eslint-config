@@ -4,19 +4,21 @@ const tsParser = ConfigCreator.createTsParser({
   tsconfigFilePaths: ["tsconfig.json"],
 });
 
-const browserRules = ConfigCreator.createBrowserRules({
+const reactRules = ConfigCreator.createReactRules({
   folderPath: "**",
 });
 
-const extensionRules = ConfigCreator.createNodeRules({
+const vueRules = ConfigCreator.createVueRules({
+  folderPath: "**",
+  tsconfigFilePaths: ["tsconfig.json"],
+});
+
+const tsRules = ConfigCreator.createTsRules({
   folderPath: "**",
 });
 
 const testRules = ConfigCreator.createTestRules();
 
-export const baseConfig = [
-  ...tsParser,
-  ...browserRules,
-  ...extensionRules,
-  ...testRules,
-];
+export const tsConfig = [...tsParser, ...tsRules, ...testRules];
+export const reactConfig = [...tsParser, ...reactRules, ...testRules];
+export const vueConfig = [...vueRules, ...testRules];
