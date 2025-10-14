@@ -160,7 +160,6 @@ export class ConfigCreator {
             {
               selector: "interface",
               format: ["PascalCase"],
-              prefix: ["I"],
             },
             {
               selector: "typeAlias",
@@ -344,7 +343,6 @@ export class ConfigCreator {
             {
               selector: "interface",
               format: ["PascalCase"],
-              prefix: ["I"],
             },
             {
               selector: "typeAlias",
@@ -474,7 +472,6 @@ export class ConfigCreator {
             {
               selector: "interface",
               format: ["PascalCase"],
-              prefix: ["I"],
             },
             {
               selector: "typeAlias",
