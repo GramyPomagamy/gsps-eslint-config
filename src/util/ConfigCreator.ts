@@ -412,6 +412,9 @@ export class ConfigCreator {
           },
         },
         rules: {
+          // vue
+          "vue/multi-word-component-names": "off",
+
           // perfectionist
           "perfectionist/sort-imports": [
             "error",
