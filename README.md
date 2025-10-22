@@ -117,17 +117,4 @@ ESLint is enabled by default in WebStorm, the only recommended tweak is enabling
 
 ### Zed
 
-ESLint is installed by default in Zed. Add this snippet to your config:
-```json
-  "format_on_save": "on",
-  "formatter": [
-    {
-      "code_actions": {
-        "source.fixAll.eslint": true
-      }
-    }
-  ]
-```
-to enable format on save for ESLint.
-
-More info here: https://zed.dev/docs/configuring-zed#format-on-save
+ESLint is installed by default in Zed. In the settings go to Editor, and turn on Format on Save. 
