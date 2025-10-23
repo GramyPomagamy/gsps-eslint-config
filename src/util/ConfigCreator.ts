@@ -2,9 +2,11 @@ import eslintJs from "@eslint/js";
 import * as tseslint from "typescript-eslint";
 import perfectionist from "eslint-plugin-perfectionist";
 import * as reactHooks from "eslint-plugin-react-hooks";
-import prettier from 'eslint-plugin-prettier';
-import prettierConfig from 'eslint-config-prettier';
+import prettier from "eslint-plugin-prettier";
+import prettierConfig from "eslint-config-prettier";
 import react from "eslint-plugin-react";
+import vue from "eslint-plugin-vue";
+import vueParser from "vue-eslint-parser";
 import globals from "globals";
 import stylistic from "@stylistic/eslint-plugin";
 import type {
@@ -33,7 +35,7 @@ export class ConfigCreator {
     });
   }
 
-  public static createNodeRules({ folderPath }: LintingRulesParams) {
+  public static createTsRules({ folderPath }: LintingRulesParams) {
     return tseslint.config(
       {
         ignores: [
@@ -50,6 +52,7 @@ export class ConfigCreator {
       eslintJs.configs.recommended,
 
       {
+        name: "javascript-rules",
         files: [`${folderPath}/**/*.{js,mjs,cjs,ts}`],
         plugins: {
           perfectionist,
@@ -116,6 +119,7 @@ export class ConfigCreator {
       },
 
       {
+        name: "typescript-rules",
         files: [`${folderPath}/**/*.ts`],
         plugins: {
           "@typescript-eslint": tseslint.plugin,
@@ -156,7 +160,6 @@ export class ConfigCreator {
             {
               selector: "interface",
               format: ["PascalCase"],
-              prefix: ["I"],
             },
             {
               selector: "typeAlias",
@@ -174,13 +177,25 @@ export class ConfigCreator {
         },
       },
 
-      prettierConfig
+      prettierConfig,
     );
   }
 
-  public static createBrowserRules({ folderPath }: LintingRulesParams) {
+  public static createReactRules({ folderPath }: LintingRulesParams) {
     return tseslint.config(
       {
+        ignores: [
+          "node_modules",
+          ".gitignore",
+          "dist",
+          "build",
+          "coverage",
+          ".next",
+          "*.min.js",
+        ],
+      },
+      {
+        name: "react-rules",
         files: [`${folderPath}/**/*.{jsx,tsx}`],
         extends: [
           react.configs.flat.recommended,
@@ -289,6 +304,7 @@ export class ConfigCreator {
       },
 
       {
+        name: "react-rules-typescript",
         files: [`${folderPath}/**/*.tsx`],
         plugins: {
           "@typescript-eslint": tseslint.plugin,
@@ -327,7 +343,6 @@ export class ConfigCreator {
             {
               selector: "interface",
               format: ["PascalCase"],
-              prefix: ["I"],
             },
             {
               selector: "typeAlias",
@@ -345,31 +360,166 @@ export class ConfigCreator {
         },
       },
 
-      prettierConfig
+      prettierConfig,
+    );
+  }
+
+  public static createVueRules({
+    folderPath,
+    tsconfigFilePaths,
+  }: LintingRulesParams & TsParserParams) {
+    return tseslint.config(
+      {
+        ignores: [
+          "node_modules",
+          ".gitignore",
+          "dist",
+          "build",
+          "coverage",
+          ".next",
+          "*.min.js",
+        ],
+      },
+      {
+        name: "vue-rules",
+        files: [`${folderPath}/**/*.vue`],
+        extends: [
+          vue.configs["flat/recommended"],
+          tseslint.configs.recommended,
+        ],
+        plugins: {
+          vue,
+          prettier,
+          perfectionist,
+          "@typescript-eslint": tseslint.plugin,
+        },
+        settings: {
+          "import/resolver": {
+            typescript: {},
+          },
+        },
+        languageOptions: {
+          parser: vueParser,
+          parserOptions: {
+            parser: tseslint.parser,
+            project: tsconfigFilePaths,
+            extraFileExtensions: [".vue"],
+          },
+          globals: {
+            ...globals.node,
+            ...globals.es2021,
+            ...globals.browser,
+          },
+        },
+        rules: {
+          // vue
+          "vue/multi-word-component-names": "off",
+
+          // perfectionist
+          "perfectionist/sort-imports": [
+            "error",
+            {
+              type: "natural",
+              order: "asc",
+              newlinesBetween: "never",
+              groups: [
+                ["builtin-type", "builtin"],
+                ["external-type", "external"],
+                ["internal-type", "internal"],
+                ["parent-type", "parent"],
+                ["sibling-type", "sibling"],
+                ["index-type", "index"],
+                "object",
+                "unknown",
+              ],
+            },
+          ],
+          "perfectionist/sort-exports": [
+            "error",
+            { type: "natural", order: "asc" },
+          ],
+          "perfectionist/sort-named-imports": [
+            "error",
+            { type: "natural", order: "asc" },
+          ],
+          "perfectionist/sort-object-types": [
+            "warn",
+            { type: "natural", order: "asc" },
+          ],
+
+          // typescript-eslint
+          "@typescript-eslint/prefer-nullish-coalescing": [
+            "warn",
+            { ignoreIfStatements: true },
+          ],
+          "@typescript-eslint/prefer-for-of": "warn",
+          "@typescript-eslint/prefer-includes": "warn",
+          "@typescript-eslint/prefer-find": "error",
+          "@typescript-eslint/no-explicit-any": "warn",
+          "@typescript-eslint/ban-ts-comment": "warn",
+          "@typescript-eslint/no-unused-vars": [
+            "error",
+            { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+          ],
+          "@typescript-eslint/consistent-type-imports": [
+            "error",
+            {
+              prefer: "type-imports",
+              fixStyle: "inline-type-imports",
+            },
+          ],
+          "@typescript-eslint/no-floating-promises": "error",
+          "@typescript-eslint/no-misused-promises": "error",
+          "@typescript-eslint/naming-convention": [
+            "error",
+            {
+              selector: "interface",
+              format: ["PascalCase"],
+            },
+            {
+              selector: "typeAlias",
+              format: ["PascalCase"],
+            },
+            {
+              selector: "enum",
+              format: ["PascalCase"],
+            },
+          ],
+          "@typescript-eslint/no-empty-function": "error",
+          "@typescript-eslint/no-useless-constructor": "error",
+          "@typescript-eslint/no-use-before-define": "error",
+          "@typescript-eslint/no-require-imports": "off",
+
+          // prettier
+          "prettier/prettier": "error",
+        },
+      },
+      prettierConfig,
     );
   }
 
   public static createTestRules() {
-    return tseslint.config({
-      files: [
-        "**/*.{test,spec}.{js,jsx,ts,tsx}",
-        "**/tests/**",
-        "**/test/**",
-        "**/__tests__/**",
-      ],
-      languageOptions: {
-        globals: {
-          ...globals.jest,
+    return tseslint.config(
+      {
+        files: [
+          "**/*.{test,spec}.{js,jsx,ts,tsx}",
+          "**/tests/**",
+          "**/test/**",
+          "**/__tests__/**",
+        ],
+        languageOptions: {
+          globals: {
+            ...globals.jest,
+          },
+        },
+        rules: {
+          // Relaxed rules for test files
+          "@typescript-eslint/no-explicit-any": "off",
+          "@stylistic/max-len": "off",
+          "@typescript-eslint/no-non-null-assertion": "off",
         },
       },
-      rules: {
-        // Relaxed rules for test files
-        "@typescript-eslint/no-explicit-any": "off",
-        "@stylistic/max-len": "off",
-        "@typescript-eslint/no-non-null-assertion": "off",
-      },
-    },
-      prettierConfig
+      prettierConfig,
     );
   }
 }
