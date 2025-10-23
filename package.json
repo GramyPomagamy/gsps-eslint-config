@@ -1,6 +1,6 @@
 {
   "name": "@gramypomagamy/eslint-config",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "./dist/index.cjs",
   "type": "module",
   "description": "ESLint configuration used in GSPS (GramyPomagamy) TypeScript projects.",
